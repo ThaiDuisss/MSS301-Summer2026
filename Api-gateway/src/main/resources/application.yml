@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: laundry-version2
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: job-service
+              uri: lb://JOB_SERVICE
+              predicates:
+                - Path=/job/**
+
+            - id: candidate-service
+              uri: lb://CANDIDATE_SERVICE
+              predicates:
+                - Path=/candidate/**
+
+            - id: application-service
+              uri: lb://APPLICATION_SERVICE
+              predicates:
+                - Path=/application/**
+
+            - id: notification-service
+              uri: lb://NOTIFICATION_SERVICE
+              predicates:
+                - Path=/notification/**
+
+            - id: cv-parser-service
+              uri: lb://CV_PARSER_SERVICE
+              predicates:
+                - Path=/cv/**
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9999/realms/Laundry-backend
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
